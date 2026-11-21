@@ -137,9 +137,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pg{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
 .pg .im{background:#f1f4fa;display:flex;align-items:center;justify-content:center;padding:6px;height:220px}
 .pg img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;border-radius:7px;box-shadow:0 1px 4px rgba(15,30,60,.10)}
-.pg .cap{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 8px}
-.pg .cap .n{font-size:12.3px;font-weight:700;color:#4b5563}
-.pg .cap button{border:1px solid #d7e2f5;background:#f7faff;color:var(--brand-d);font-size:12px;font-weight:800;border-radius:8px;padding:0 10px;min-height:30px}
+.pg .cap{display:flex;flex-direction:column;gap:6px;padding:7px 8px}
+.pg .cap .n{font-size:11.4px;font-weight:700;color:#4b5563;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pg .cap button{width:100%;border:1px solid #d7e2f5;background:#f7faff;color:var(--brand-d);font-size:12px;font-weight:800;border-radius:8px;padding:0 6px;min-height:32px;white-space:nowrap}
 
 /* image list */
 .ilist{display:flex;flex-direction:column;gap:8px;margin-top:14px}
@@ -243,7 +243,7 @@ details.note .tiny{font-size:12px;color:var(--sub);margin:9px 0 0}
         <button type="button" data-val="3" class="on" aria-pressed="true"><span class="a">3x 고화질</span><span class="b">A4 인쇄·보관 (권장)</span></button>
         <button type="button" data-val="4" aria-pressed="false"><span class="a">4x 초고화질</span><span class="b">계약서 · 확대해도 선명</span></button>
       </div>
-      <p class="hint">3x면 A4 한 쪽이 가로 1785px · 세로 2526px로 풀려요. 4x는 그보다 1.8배 더 선명하고 용량도 그만큼 큽니다.</p>
+      <p class="hint">3x면 A4 한 쪽이 약 1785×2526px로 풀려요. 4x는 그보다 1.8배 더 선명하고 용량도 그만큼 큽니다.</p>
       <div class="row">
         <span class="lbl">형식</span>
         <span class="seg" data-group="fmt">
@@ -273,6 +273,7 @@ details.note .tiny{font-size:12px;color:var(--sub);margin:9px 0 0}
           <p class="sharehint" data-share-only hidden>사진 앱에 넣으려면 공유 창에서 <b>이미지 저장</b>을 고르세요. 카톡은 채팅방 <b>＋ → 파일</b>로 보내야 원본 화질 그대로 갑니다.</p>
         </div>
         <p class="hint" id="pdfClampNote" hidden></p>
+        <p class="hint" data-standalone-note hidden>홈 화면 앱에서는 공유가 파일 대신 링크로 나갈 수 있어요. 카톡에 파란 링크가 붙었다면 Safari에서 같은 주소를 열고 다시 <b>보내기</b> 해 주세요.</p>
         <div class="grid" id="pdfGrid"></div>
         <div class="tip">
           <b>카톡 팁</b> — 사진으로 보내면 카톡이 자동으로 줄여서 글자가 뭉개져요. 채팅방 <b>＋ → 파일</b>에서 고르면 원본 화질 그대로 전해집니다.<br>
@@ -344,6 +345,9 @@ details.note .tiny{font-size:12px;color:var(--sub);margin:9px 0 0}
         </div>
         <div class="notice" id="iosDownloadNotice" hidden>
           아이폰에서 <b>다운로드</b>는 파일 앱 대신 새 창으로 열릴 때가 있고, 그 창에서 공유하면 PDF가 아니라 <b>페이지 주소</b>가 나가 404가 열려요. 카톡으로 보낼 때는 위 <b>보내기</b> 버튼을 쓰세요.
+        </div>
+        <div class="notice" data-standalone-note hidden>
+          홈 화면 앱에서는 공유가 파일 대신 링크로 나갈 수 있어요. 카톡에 파란 링크가 붙었다면 Safari에서 같은 주소를 열고 다시 <b>보내기</b> 해 주세요.
         </div>
         <p class="hint" id="imgQualityNote" hidden></p>
         <div class="grid" id="outGrid" style="margin-top:12px"></div>
@@ -540,6 +544,7 @@ if (shareOk) {
 if (isIOS) {
   var iosNote = document.getElementById('iosDownloadNotice');
   if (iosNote) iosNote.hidden = false;
+  if (isStandalone) $$('[data-standalone-note]').forEach(function(el){ el.hidden = false; });
 }
 function downloadBlob(blob, name){
   var url = URL.createObjectURL(blob);
@@ -1066,7 +1071,7 @@ $('#imgRun').addEventListener('click', runImages);
 $('#outDownload').addEventListener('click', function(){
   if (!state.out) return;
   downloadBlob(state.out.blob, state.out.name);
-  toast('PDF 저장을 시작했어요. 파일 앱 > 다운로드에서 확인하세요.');
+  toast(isIOS ? 'PDF 저장을 시작했어요. 파일 앱 > 다운로드에서 확인하세요.' : 'PDF 저장을 시작했어요.');
 });
 $('#outShare').addEventListener('click', function(){
   if (!state.out) return;
