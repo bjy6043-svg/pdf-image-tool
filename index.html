@@ -1051,12 +1051,14 @@ async function runImages(){
     var qn = $('#imgQualityNote');
     qn.textContent = downscaled
       ? downscaled + '장은 1,600만 화소가 넘어 비율만 유지해 줄여 넣었어요. 나머지는 원본 화소 그대로입니다.'
-      : '사진 ' + total + '장 모두 원본 화소 그대로 PDF에 들어갔어요 (축소·재압축 품질 95%).';
+      : (total === 1
+          ? '사진 1장이 원본 화소 그대로 PDF에 들어갔어요 (축소 없음 · JPEG 품질 95%).'
+          : '사진 ' + total + '장 모두 원본 화소 그대로 PDF에 들어갔어요 (축소 없음 · JPEG 품질 95%).');
     qn.hidden = false;
     try { await renderOutPreview(bytes); } catch (e) { window.__errors.push('preview: ' + e); }
     $('#imgResult').hidden = false;
     setImgProgress(1, '완료 · ' + total + '쪽');
-    toast('PDF 1개를 만들었어요. 아래에서 저장하세요.');
+    toast('PDF를 만들었어요. 위의 보내기 버튼으로 카톡에 파일로 전송하세요.');
   } catch (err) {
     window.__errors.push('images: ' + (err && err.message ? err.message : err));
     $('#imgErr').textContent = 'PDF를 만들지 못했어요. ' + (err && err.message ? err.message : '다시 시도해 주세요.');
