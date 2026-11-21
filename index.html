@@ -87,6 +87,32 @@ button{font:inherit;color:inherit;cursor:pointer}
 .seg button{border:0;background:transparent;font-size:12.8px;font-weight:700;color:#5a6478;padding:7px 11px;border-radius:8px;min-height:34px;letter-spacing:-.3px}
 .seg button.on{background:#fff;color:var(--brand-d);box-shadow:0 1px 4px rgba(24,45,90,.14)}
 
+/* resolution option cards */
+.optgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.optgrid button{border:1.4px solid #e3e9f5;background:#fbfcff;border-radius:12px;padding:9px 10px;text-align:left;display:flex;flex-direction:column;gap:2px;min-height:56px;transition:background .12s,border-color .12s}
+.optgrid button:active{background:#f1f6ff}
+.optgrid button .a{font-size:14.2px;font-weight:800;letter-spacing:-.3px;color:#25303f;display:block;line-height:1.25}
+.optgrid button .b{font-size:11.2px;font-weight:600;color:#7c8598;line-height:1.35;display:block}
+.optgrid button.on{border-color:#8fb0f2;background:#eef3ff;box-shadow:0 0 0 1px rgba(47,107,255,.16)}
+.optgrid button.on .a{color:var(--brand-d)}
+.optgrid button.on .b{color:#4a6bb8}
+.hint{margin:9px 1px 0;font-size:11.9px;line-height:1.55;color:#7c8598}
+.hint b{color:#3a4453}
+
+/* share hero */
+.share-hero{margin:0 0 12px}
+.share-hero .btn{margin-top:0}
+.btn.share{background:linear-gradient(180deg,#3d7cff,#2a5ff0);color:#fff;box-shadow:0 8px 18px rgba(47,107,255,.24);min-height:58px;font-size:16px}
+.btn.share .sub{font-size:11.3px;font-weight:600;opacity:.88;display:block;margin-top:2px;letter-spacing:-.1px}
+.sharehint{margin:8px 2px 0;font-size:11.9px;line-height:1.58;color:#6c7585}
+.sharehint b{color:#3a4453}
+
+/* notice / tip */
+.notice{margin-top:12px;background:#fff8ec;border:1px solid #ffe1b3;color:#8a5a05;border-radius:12px;padding:10px 12px;font-size:12.1px;line-height:1.62}
+.notice b{color:#6d4600}
+.tip{margin-top:12px;background:#f4f8ff;border:1px solid #dfe9fb;border-radius:12px;padding:11px 12px;font-size:12.1px;line-height:1.64;color:#41506b}
+.tip b{color:#1f3f8f}
+
 /* buttons */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;border:0;border-radius:14px;font-size:16.5px;font-weight:800;letter-spacing:-.3px;transition:transform .08s,opacity .15s}
 .btn:active{transform:scale(.985)}
@@ -207,13 +233,17 @@ details.note .tiny{font-size:12px;color:var(--sub);margin:9px 0 0}
         <button type="button" class="ch" id="pdfChange">변경</button>
       </div>
 
-      <div class="row">
+      <div class="row" style="margin-bottom:0">
         <span class="lbl">해상도</span>
-        <span class="seg" data-group="res">
-          <button type="button" data-val="1.5" aria-pressed="false">1.5x 표준</button>
-          <button type="button" data-val="2" class="on" aria-pressed="true">2x 고화질</button>
-        </span>
+        <span class="hint" id="pdfEst" style="margin:0" hidden></span>
       </div>
+      <div class="optgrid" data-group="res">
+        <button type="button" data-val="1.5" aria-pressed="false"><span class="a">1.5x</span><span class="b">표준 · 용량 가장 작음</span></button>
+        <button type="button" data-val="2" aria-pressed="false"><span class="a">2x</span><span class="b">고화질 · 화면으로 보기</span></button>
+        <button type="button" data-val="3" class="on" aria-pressed="true"><span class="a">3x 고화질</span><span class="b">A4 인쇄·보관 (권장)</span></button>
+        <button type="button" data-val="4" aria-pressed="false"><span class="a">4x 초고화질</span><span class="b">계약서 · 확대해도 선명</span></button>
+      </div>
+      <p class="hint">3x면 A4 한 쪽이 가로 1785px · 세로 2526px로 풀려요. 4x는 그보다 1.8배 더 선명하고 용량도 그만큼 큽니다.</p>
       <div class="row">
         <span class="lbl">형식</span>
         <span class="seg" data-group="fmt">
@@ -235,14 +265,19 @@ details.note .tiny{font-size:12px;color:var(--sub);margin:9px 0 0}
           <span class="cnt" id="pdfCount"></span>
           <button type="button" class="btn ghost tiny" id="pdfZipAll">ZIP 전체 저장</button>
         </div>
-        <div class="grid" id="pdfGrid"></div>
-        <div class="btnrow">
-          <button type="button" class="btn ghost" id="pdfShare" data-share hidden>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
-            공유 시트로 저장
+        <div class="share-hero">
+          <button type="button" class="btn share" id="pdfShare" data-share hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
+            <span>카톡·사진 앱으로 보내기 (원본)<span class="sub">이미지 파일 그대로 · 링크 아님</span></span>
           </button>
+          <p class="sharehint" data-share-only hidden>사진 앱에 넣으려면 공유 창에서 <b>이미지 저장</b>을 고르세요. 카톡은 채팅방 <b>＋ → 파일</b>로 보내야 원본 화질 그대로 갑니다.</p>
         </div>
-        <p class="desc" style="margin:10px 0 0">사진 앱에 넣으려면 <b>공유 시트 → 이미지 저장</b>, 파일로 받으려면 <b>ZIP 전체 저장</b>을 쓰세요. ZIP은 파일 앱에서 눌러 풀면 됩니다.</p>
+        <p class="hint" id="pdfClampNote" hidden></p>
+        <div class="grid" id="pdfGrid"></div>
+        <div class="tip">
+          <b>카톡 팁</b> — 사진으로 보내면 카톡이 자동으로 줄여서 글자가 뭉개져요. 채팅방 <b>＋ → 파일</b>에서 고르면 원본 화질 그대로 전해집니다.<br>
+          파일 묶음으로 받으려면 <b>ZIP 전체 저장</b>을 쓰세요. ZIP은 파일 앱에서 눌러 풀면 됩니다.
+        </div>
       </div>
     </div>
   </section>
@@ -297,17 +332,35 @@ details.note .tiny{font-size:12px;color:var(--sub);margin:9px 0 0}
         <div class="res-head">
           <span class="cnt" id="outInfo"></span>
         </div>
-        <div class="grid" id="outGrid"></div>
-        <button type="button" class="btn primary" id="outDownload" style="margin-top:12px">PDF 다운로드</button>
-        <div class="btnrow">
-          <button type="button" class="btn ghost" id="outShare" data-share hidden>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
-            공유 시트로 저장
+        <div class="share-hero">
+          <button type="button" class="btn share" id="outShare" data-share hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M8 7l4-4 4 4"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
+            <span>카톡·파일 앱으로 바로 보내기<span class="sub">링크가 아니라 PDF 파일 그대로 전해져요</span></span>
           </button>
+          <p class="sharehint" data-share-only hidden>카톡 채팅방에 <b>파일</b>로 붙어요. 받는 사람도 바로 열어 볼 수 있어요.</p>
         </div>
+        <div class="btnrow">
+          <button type="button" class="btn ghost" id="outDownload">PDF 다운로드</button>
+        </div>
+        <div class="notice" id="iosDownloadNotice" hidden>
+          아이폰에서 <b>다운로드</b>는 파일 앱 대신 새 창으로 열릴 때가 있고, 그 창에서 공유하면 PDF가 아니라 <b>페이지 주소</b>가 나가 404가 열려요. 카톡으로 보낼 때는 위 <b>보내기</b> 버튼을 쓰세요.
+        </div>
+        <p class="hint" id="imgQualityNote" hidden></p>
+        <div class="grid" id="outGrid" style="margin-top:12px"></div>
       </div>
     </div>
   </section>
+
+  <details class="note">
+    <summary>카톡으로 보낼 때 (404 화면이 떴다면)</summary>
+    <div class="body">
+      <ol>
+        <li>결과 화면의 <b>카톡·파일 앱으로 바로 보내기</b>를 쓰세요. 이 버튼은 링크가 아니라 <b>PDF 파일 그 자체</b>를 넘깁니다.</li>
+        <li>카톡에 붙은 것이 <b>파란 링크</b>이고 눌렀을 때 404가 열리면, 파일이 아니라 페이지 주소가 공유된 것입니다. 그 메시지를 지우고 다시 <b>보내기</b> 버튼으로 보내면 파일로 갑니다.</li>
+        <li>사진은 채팅방 <b>＋ → 파일</b>에서 골라 보내세요. 사진 첨부로 보내면 카톡이 자동으로 줄여 화질이 떨어집니다.</li>
+      </ol>
+    </div>
+  </details>
 
   <details class="note">
     <summary>아이폰 홈 화면에 추가하기</summary>
@@ -433,10 +486,10 @@ try {
 
 /* ---------- 공통 ---------- */
 function segVal(group){
-  var el = document.querySelector('.seg[data-group="' + group + '"] button.on');
+  var el = document.querySelector('[data-group="' + group + '"] button.on');
   return el ? el.getAttribute('data-val') : '';
 }
-$$('.seg').forEach(function(seg){
+$$('.seg, .optgrid').forEach(function(seg){
   seg.addEventListener('click', function(ev){
     var b = ev.target.closest ? ev.target.closest('button') : null;
     if (!b) return;
@@ -445,6 +498,7 @@ $$('.seg').forEach(function(seg){
       x.classList.toggle('on', on);
       x.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
+    if (seg.getAttribute('data-group') === 'res') updateEstimate();
   });
 });
 $$('.tabs button').forEach(function(btn){
@@ -455,8 +509,37 @@ $$('.tabs button').forEach(function(btn){
     $('#panel-img').hidden = (tab !== 'img');
   });
 });
-if (navigator.share && navigator.canShare) {
+var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+var isStandalone = (navigator.standalone === true) || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+
+/* ---------- 공유 · 다운로드 ----------
+   아이폰에서 navigator.share 에 url·text·title 을 섞거나 blob: 주소를 공유하면
+   PDF 대신 페이지 주소(bjy6043-svg.github.io → 404)가 카톡으로 나간다.
+   그래서 공유는 언제나 files 배열만 넘기고, 링크는 절대 넣지 않는다. */
+var shareOk = false;
+try {
+  if (navigator.share && typeof File === 'function' && typeof Blob === 'function') {
+    if (navigator.canShare) {
+      var probeFile = new File([new Blob(['%PDF-1.4'], { type: 'application/pdf' })], 'probe.pdf', { type: 'application/pdf' });
+      shareOk = navigator.canShare({ files: [probeFile] }) === true;
+    } else {
+      shareOk = true;
+    }
+  }
+} catch (e) {
+  shareOk = false;
+  window.__errors.push('canShare: ' + e);
+}
+if (shareOk) {
   $$('[data-share]').forEach(function(b){ b.hidden = false; });
+} else {
+  $$('[data-share-only]').forEach(function(b){ b.hidden = true; });
+  var dl0 = document.getElementById('outDownload');
+  if (dl0) { dl0.className = 'btn primary'; }
+}
+if (isIOS) {
+  var iosNote = document.getElementById('iosDownloadNotice');
+  if (iosNote) iosNote.hidden = false;
 }
 function downloadBlob(blob, name){
   var url = URL.createObjectURL(blob);
@@ -464,14 +547,19 @@ function downloadBlob(blob, name){
   a.href = url;
   a.download = name;
   a.rel = 'noopener';
+  a.style.display = 'none';
   document.body.appendChild(a);
   a.click();
   setTimeout(function(){ URL.revokeObjectURL(url); if (a.parentNode) a.parentNode.removeChild(a); }, 8000);
 }
-function shareFiles(files, title){
-  return navigator.share({ files: files, title: title }).then(function(){ return true; }).catch(function(err){
-    if (err && err.name === 'AbortError') return true;
-    window.__errors.push('share: ' + err);
+function fileOf(blob, name, type){
+  return new File([blob], name, { type: type || blob.type || 'application/octet-stream' });
+}
+function shareFilesOnly(files){
+  // 성공 true · 사용자가 닫음 'abort' · 실패 false  (files 외에는 어떤 값도 넘기지 않는다)
+  return navigator.share({ files: files }).then(function(){ return true; }).catch(function(err){
+    if (err && err.name === 'AbortError') return 'abort';
+    window.__errors.push('share: ' + (err && err.name ? err.name : err));
     return false;
   });
 }
@@ -480,9 +568,25 @@ function shareFiles(files, title){
    기능 A · PDF → 이미지
    ========================================================= */
 var state = {
-  pdfFile: null, pdfBase: 'page', pages: [],
+  pdfFile: null, pdfBase: 'page', pages: [], pdfBuf: null, pdfDoc: null, pdfPages: 0, pageSize: null,
   images: [], out: null, outUrls: [], busy: false
 };
+
+/* 선택한 해상도로 장당 실제 출력 픽셀을 미리 보여 줌 */
+function updateEstimate(){
+  var el = $('#pdfEst');
+  if (!el) return;
+  if (!state.pdfPages) { el.hidden = true; el.textContent = ''; return; }
+  var scale = parseFloat(segVal('res')) || 3;
+  var ps = state.pageSize || { w: 595, h: 842 };
+  var w = Math.round(ps.w * scale), h = Math.round(ps.h * scale);
+  var mp = w * h / 1e6;
+  var all = mp * state.pdfPages;
+  var t = state.pdfPages + '쪽 · 장당 ' + w + '×' + h + 'px (' + (Math.round(mp * 10) / 10) + 'MP)';
+  if (all > 60) t += ' · 전체 ' + Math.round(all) + 'MP, 메모리가 부족하면 2x로 낮춰 주세요';
+  el.textContent = t;
+  el.hidden = false;
+}
 
 function setPdfProgress(frac, text){
   frac = Math.max(0, Math.min(1, frac || 0));
@@ -498,16 +602,38 @@ function clearPdfResults(){
   $('#pdfErr').hidden = true;
 }
 
-$('#pdfInput').addEventListener('change', function(ev){
+$('#pdfInput').addEventListener('change', async function(ev){
   var f = ev.target.files && ev.target.files[0];
+  ev.target.value = '';
   if (!f) return;
   if (!/\.pdf$/i.test(f.name) && f.type !== 'application/pdf') { toast('PDF 파일만 고를 수 있어요.'); return; }
   clearPdfResults();
+  if (state.pdfDoc) { try { state.pdfDoc.destroy(); } catch (e) {} }
+  state.pdfDoc = null; state.pdfPages = 0; state.pageSize = null; state.pdfBuf = null;
   state.pdfFile = f;
   $('#pdfPick').hidden = true;
   $('#pdfChip').hidden = false;
   $('#pdfName').textContent = f.name;
   $('#pdfSize').textContent = fmtSize(f.size) + ' · PDF';
+  $('#pdfRun').disabled = true;
+  $('#pdfEst').hidden = false;
+  $('#pdfEst').textContent = 'PDF 읽는 중…';
+  try {
+    state.pdfBuf = new Uint8Array(await f.arrayBuffer());
+    var doc = await pdfjsLib.getDocument({ data: new Uint8Array(state.pdfBuf), isEvalSupported: true }).promise;
+    state.pdfDoc = doc;
+    state.pdfPages = doc.numPages;
+    var p1 = await doc.getPage(1);
+    var v1 = p1.getViewport({ scale: 1 });
+    state.pageSize = { w: v1.width, h: v1.height };
+    p1.cleanup();
+    updateEstimate();
+  } catch (err) {
+    state.pdfDoc = null; state.pdfPages = 0;
+    var pm = (err && (err.name === 'PasswordException' || /password/i.test(String(err.message || ''))));
+    $('#pdfEst').textContent = pm ? '비밀번호가 걸린 PDF예요. 잠금을 풀고 다시 골라 주세요.' : '미리 읽지 못했어요. 아래 버튼을 누르면 다시 시도해요.';
+    window.__errors.push('pdf load: ' + (err && err.message ? err.message : err));
+  }
   $('#pdfRun').disabled = false;
 });
 $('#pdfChange').addEventListener('click', function(){ $('#pdfInput').click(); });
@@ -519,9 +645,20 @@ function addPageCard(rec){
   img.src = rec.url; img.alt = rec.page + '쪽 미리보기'; img.loading = 'lazy';
   im.appendChild(img);
   var cap = document.createElement('div'); cap.className = 'cap';
-  var n = document.createElement('span'); n.className = 'n'; n.textContent = rec.page + '쪽';
-  var b = document.createElement('button'); b.type = 'button'; b.textContent = '저장';
-  b.addEventListener('click', function(){ downloadBlob(rec.blob, rec.name); toast(rec.page + '쪽 이미지를 저장했어요.'); });
+  var n = document.createElement('span'); n.className = 'n';
+  n.textContent = rec.page + '쪽 · ' + rec.w + '×' + rec.h;
+  var b = document.createElement('button'); b.type = 'button';
+  b.textContent = shareOk ? '보내기' : '저장';
+  b.addEventListener('click', function(){
+    if (shareOk) {
+      shareFilesOnly([fileOf(rec.blob, rec.name)]).then(function(r){
+        if (r === false) { downloadBlob(rec.blob, rec.name); toast('공유 창을 열지 못해 저장으로 바꿨어요.'); }
+      });
+    } else {
+      downloadBlob(rec.blob, rec.name);
+      toast(rec.page + '쪽 이미지를 저장했어요.');
+    }
+  });
   cap.appendChild(n); cap.appendChild(b);
   card.appendChild(im); card.appendChild(cap);
   $('#pdfGrid').appendChild(card);
@@ -535,24 +672,33 @@ async function runPdf(){
   runBtn.disabled = true; runBtn.textContent = '변환 중…';
   clearPdfResults();
   $('#pdfProg').hidden = false;
+  $('#pdfClampNote').hidden = true;
   setPdfProgress(0, 'PDF 여는 중…');
   try {
-    var buf = await state.pdfFile.arrayBuffer();
-    var pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buf), isEvalSupported: true }).promise;
+    if (!state.pdfBuf) state.pdfBuf = new Uint8Array(await state.pdfFile.arrayBuffer());
+    var pdf = state.pdfDoc;
+    if (!pdf) {
+      pdf = await pdfjsLib.getDocument({ data: new Uint8Array(state.pdfBuf), isEvalSupported: true }).promise;
+      state.pdfDoc = pdf;
+    }
     var total = pdf.numPages;
-    var scale = parseFloat(segVal('res')) || 2;
+    state.pdfPages = total;
+    var scale = parseFloat(segVal('res')) || 3;
     var fmt = segVal('fmt') || 'png';
     var mime = (fmt === 'jpg') ? 'image/jpeg' : 'image/png';
+    var quality = (fmt === 'jpg') ? 0.95 : undefined;   // JPG 품질 0.95 · PNG는 무손실
     var base = (state.pdfFile.name.replace(/\.pdf$/i, '').trim() || 'page').slice(0, 60);
     state.pdfBase = base;
+    var MAXPX = 16000000;   // iOS 캔버스 한계 아래
+    var clamped = 0;
     for (var i = 1; i <= total; i++) {
       setPdfProgress((i - 1) / total, i + ' / ' + total + '페이지 변환 중…');
       var page = await pdf.getPage(i);
       var vp = page.getViewport({ scale: scale });
-      var MAXPX = 15000000;
       if (vp.width * vp.height > MAXPX) {
         var k = Math.sqrt(MAXPX / (vp.width * vp.height));
         vp = page.getViewport({ scale: scale * k });
+        clamped++;
       }
       var c = document.createElement('canvas');
       c.width = Math.max(1, Math.round(vp.width));
@@ -560,10 +706,11 @@ async function runPdf(){
       var ctx = c.getContext('2d', { alpha: false });
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, c.width, c.height);
+      try { ctx.imageSmoothingQuality = 'high'; } catch (e) {}
       await page.render({ canvasContext: ctx, viewport: vp }).promise;
-      var blob = await new Promise(function(res){ c.toBlob(res, mime, fmt === 'jpg' ? 0.92 : undefined); });
+      var blob = await new Promise(function(res){ c.toBlob(res, mime, quality); });
       if (!blob) throw new Error('이미지를 만들지 못했어요.');
-      var rec = { blob: blob, url: URL.createObjectURL(blob), page: i, name: base + '_' + pad2(i) + '.' + fmt };
+      var rec = { blob: blob, url: URL.createObjectURL(blob), page: i, name: base + '_' + pad2(i) + '.' + fmt, w: c.width, h: c.height };
       state.pages.push(rec);
       addPageCard(rec);
       page.cleanup();
@@ -571,10 +718,14 @@ async function runPdf(){
       setPdfProgress(i / total, i + ' / ' + total + '페이지 완료');
       await sleep(16);
     }
+    if (clamped) {
+      $('#pdfClampNote').textContent = clamped + '쪽은 기기 한계(1,600만 화소)에 맞춰 조금 줄여 풀었어요. 나머지 쪽은 ' + scale + 'x 그대로입니다.';
+      $('#pdfClampNote').hidden = false;
+    }
     $('#pdfCount').textContent = total + '쪽 · ' + fmt.toUpperCase() + ' · ' + scale + 'x · ' + fmtSize(state.pages.reduce(function(s, p){ return s + p.blob.size; }, 0));
     $('#pdfResults').hidden = false;
     setPdfProgress(1, '완료 · ' + total + '쪽');
-    toast(total + '쪽을 이미지로 풀었어요.');
+    toast(total + '쪽을 ' + scale + 'x로 풀었어요.');
   } catch (err) {
     window.__errors.push('pdf: ' + (err && err.message ? err.message : err));
     var m = '변환하지 못했어요. ';
@@ -582,6 +733,8 @@ async function runPdf(){
       m = '비밀번호가 걸린 PDF예요. 잠금을 풀고 다시 시도해 주세요.';
     } else if (err && /worker|fake worker/i.test(String(err.message))) {
       m = 'PDF 처리기를 불러오지 못했어요. 페이지를 새로 고친 뒤 다시 시도해 주세요.';
+    } else if (err && /canvas|memory|allocation|toBlob/i.test(String(err.message || ''))) {
+      m = '이 쪽은 화질이 너무 높아 기기 메모리가 부족해요. 해상도를 2x로 낮추거나 쪽 수를 나눠서 다시 시도해 주세요.';
     } else if (err && err.message) {
       m += err.message;
     }
@@ -659,11 +812,12 @@ async function saveAllZip(){
   }
 }
 $('#pdfZipAll').addEventListener('click', saveAllZip);
-$('#pdfShare').addEventListener('click', async function(){
+$('#pdfShare').addEventListener('click', function(){
   if (!state.pages.length) return;
-  var files = state.pages.map(function(p){ return new File([p.blob], p.name, { type: p.blob.type }); });
-  var ok = await shareFiles(files, 'PDF에서 푼 이미지');
-  if (!ok) toast('공유 시트를 열 수 없어요. 쪽별 저장을 이용해 주세요.');
+  var files = state.pages.map(function(p){ return fileOf(p.blob, p.name); });
+  shareFilesOnly(files).then(function(r){
+    if (r === false) toast('공유 창을 열지 못했어요. 쪽별 보내기를 써 주세요.');
+  });
 });
 
 /* =========================================================
@@ -684,6 +838,8 @@ function clearOut(){
   $('#outGrid').innerHTML = '';
   $('#imgResult').hidden = true;
   $('#imgErr').hidden = true;
+  var qn = $('#imgQualityNote');
+  if (qn) { qn.hidden = true; qn.textContent = ''; }
 }
 
 async function bitmapOf(file){
@@ -710,21 +866,23 @@ async function toJpeg(item){
   var w = src.width || src.naturalWidth;
   var h = src.height || src.naturalHeight;
   if (!w || !h) throw new Error('이미지 크기를 읽지 못했어요.');
-  var MAX = 3200;
-  var s = Math.min(1, MAX / Math.max(w, h));
+  /* 16MP(1,600만 화소) 이하 사진은 원본 화소 그대로: 크롭·축소 없이 캔버스에 그대로 앉힌다.
+     (아이폰 캔버스 한계가 약 1,677만 화소라 그 위만 비율 유지해 줄인다) */
+  var MAXPX = 16000000;
+  var s = Math.min(1, Math.sqrt(MAXPX / (w * h)));
   var c = document.createElement('canvas');
   c.width = Math.max(1, Math.round(w * s));
   c.height = Math.max(1, Math.round(h * s));
-  var ctx = c.getContext('2d');
+  var ctx = c.getContext('2d', { alpha: false });
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, c.width, c.height);
   try { ctx.imageSmoothingQuality = 'high'; } catch (e) {}
   ctx.drawImage(src, 0, 0, c.width, c.height);
   if (src.close) { try { src.close(); } catch (e) {} }
-  var blob = await new Promise(function(res){ c.toBlob(res, 'image/jpeg', 0.92); });
+  var blob = await new Promise(function(res){ c.toBlob(res, 'image/jpeg', 0.95); });   // 품질 0.95
   if (!blob) throw new Error('이미지를 변환하지 못했어요.');
   var bytes = new Uint8Array(await blob.arrayBuffer());
-  item.jpeg = { bytes: bytes, width: c.width, height: c.height };
+  item.jpeg = { bytes: bytes, width: c.width, height: c.height, downscaled: s < 0.999 };
   c.width = c.height = 0;
   return item.jpeg;
 }
@@ -856,9 +1014,11 @@ async function runImages(){
     var mode = segVal('size') || 'a4';
     var margin = (segVal('margin') === 'small') ? 24 : 0;
     var total = state.images.length;
+    var downscaled = 0;
     for (var i = 0; i < total; i++) {
       setImgProgress(i / total, (i + 1) + ' / ' + total + '장 넣는 중…');
       var jp = await toJpeg(state.images[i]);
+      if (jp.downscaled) downscaled++;
       var img = await doc.embedJpg(jp.bytes);
       var W = jp.width, H = jp.height;
       if (mode === 'a4') {
@@ -881,8 +1041,13 @@ async function runImages(){
     doc.setCreator('PDF↔이미지');
     var bytes = await doc.save();
     var blob = new Blob([bytes], { type: 'application/pdf' });
-    state.out = { blob: blob, name: name, bytes: bytes, pages: total };
+    state.out = { blob: blob, name: name, bytes: bytes, pages: total, downscaled: downscaled };
     $('#outInfo').textContent = total + '쪽 · ' + fmtSize(blob.size) + ' · ' + name;
+    var qn = $('#imgQualityNote');
+    qn.textContent = downscaled
+      ? downscaled + '장은 1,600만 화소가 넘어 비율만 유지해 줄여 넣었어요. 나머지는 원본 화소 그대로입니다.'
+      : '사진 ' + total + '장 모두 원본 화소 그대로 PDF에 들어갔어요 (축소·재압축 품질 95%).';
+    qn.hidden = false;
     try { await renderOutPreview(bytes); } catch (e) { window.__errors.push('preview: ' + e); }
     $('#imgResult').hidden = false;
     setImgProgress(1, '완료 · ' + total + '쪽');
@@ -901,13 +1066,13 @@ $('#imgRun').addEventListener('click', runImages);
 $('#outDownload').addEventListener('click', function(){
   if (!state.out) return;
   downloadBlob(state.out.blob, state.out.name);
-  toast('PDF 저장을 시작했어요.');
+  toast('PDF 저장을 시작했어요. 파일 앱 > 다운로드에서 확인하세요.');
 });
-$('#outShare').addEventListener('click', async function(){
+$('#outShare').addEventListener('click', function(){
   if (!state.out) return;
-  var f = new File([state.out.blob], state.out.name, { type: 'application/pdf' });
-  var ok = await shareFiles([f], state.out.name);
-  if (!ok) toast('공유 시트를 열 수 없어요. 다운로드를 이용해 주세요.');
+  shareFilesOnly([fileOf(state.out.blob, state.out.name, 'application/pdf')]).then(function(r){
+    if (r === false) toast('공유 창을 열지 못했어요. PDF 다운로드를 이용해 주세요.');
+  });
 });
 
 renderImages();
